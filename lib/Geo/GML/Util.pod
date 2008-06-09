@@ -1,0 +1,37 @@
+=head1 NAME
+
+Geo::GML::Util - GML useful constants
+
+=head1 INHERITANCE
+
+ Geo::GML::Util
+   is a Exporter
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=head1 FUNCTIONS
+
+=head2 Constants
+
+=head3 Export Tag :protocols
+
+This tag will give you access to the the name-space constants for
+all recognisable GML versions, like NS_GML_32.
+
+=head3 Export Tags
+
+The following tags define all what you need per version.
+
+  :gml200    2.0.0
+  :gml211    2.1.1
+  :gml212    2.1.2
+  :gml2120   2.1.2.0
+  :gml2121   2.1.2.1
+  :gml300    3.0.0
+  :gml301    3.0.1
+  :gml310    3.1.0
+  :gml311    3.1.1
+  :gml321    3.2.1
+

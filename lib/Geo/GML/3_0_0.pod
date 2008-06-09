@@ -1,0 +1,81 @@
+=head1 NAME
+
+Geo::GML::3_0_0 - GML Specification 3.0.0
+
+=head1 INHERITANCE
+
+ Geo::GML::3_0_0
+   is a Geo::GML
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=head1 METHODS
+
+=head2 Constructors
+
+Geo::GML::3_0_0-E<gt>B<new>(OPTIONS)
+
+=over 4
+
+ Option          --Defined in     --Default
+ allow_undeclared  Geo::GML         <true>
+ prefixes          Geo::GML         gml,smil,xlink
+ schemas           Geo::GML         <created internally>
+ version           Geo::GML         '3.0.0'
+
+. allow_undeclared => BOOLEAN
+
+. prefixes => ARRAY|HASH
+
+. schemas => XML::Compile::Cache object
+
+. version => VERSION|NAMESPACE
+
+=back
+
+=head2 Accessors
+
+$obj-E<gt>B<direction>
+
+=over 4
+
+See L<Geo::GML/"Accessors">
+
+=back
+
+$obj-E<gt>B<schemas>
+
+=over 4
+
+See L<Geo::GML/"Accessors">
+
+=back
+
+$obj-E<gt>B<version>
+
+=over 4
+
+See L<Geo::GML/"Accessors">
+
+=back
+
+=head2 Helpers
+
+$obj-E<gt>B<printIndex>([FILEHANDLE], OPTIONS)
+
+=over 4
+
+See L<Geo::GML/"Helpers">
+
+=back
+
+$obj-E<gt>B<template>('PERL'|'XML', TYPE, OPTIONS)
+
+=over 4
+
+See L<Geo::GML/"Helpers">
+
+=back
+

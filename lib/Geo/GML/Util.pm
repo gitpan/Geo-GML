@@ -7,7 +7,7 @@ use strict;
 
 package Geo::GML::Util;
 use vars '$VERSION';
-$VERSION = '0.10';
+$VERSION = '0.11';
 
 use base 'Exporter';
 
@@ -26,7 +26,7 @@ our @gml321  = qw/NS_GML_32 NS_GML_321
 
 our @proto   = qw/NS_GML NS_GML_32 NS_GML_SF/;
 
-our @EXPORT_OK =
+our @EXPORT  =
  ( @proto
  , @gml200, @gml211, @gml212, @gml2120, @gml2121
  , @gml300, @gml301, @gml310, @gml311, @gml321

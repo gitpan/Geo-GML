@@ -4,24 +4,10 @@ Geo::GML - Geography Markup Language processing
 
 =head1 INHERITANCE
 
- Geo::GML is extended by
-   Geo::GML::2_0_0
-   Geo::GML::2_1_1
-   Geo::GML::2_1_2
-   Geo::GML::2_1_2_0
-   Geo::GML::2_1_2_1
-   Geo::GML::3_0_0
-   Geo::GML::3_0_1
-   Geo::GML::3_1_0
-   Geo::GML::3_1_1
-   Geo::GML::3_2_1
-
 =head1 SYNOPSIS
 
  use Geo::GML   qw/gml321/;
- use Geo::GML::3_2_1;   # not needed unless daemon
 
- my $gml = Geo::GML::3_2_1->new('READER', ...);
  my $gml = Geo::GML->new('READER', version => '3.2.1');
 
  # see XML::Compile::Cache on how to use readers and writers
@@ -37,13 +23,18 @@ Geo::GML - Geography Markup Language processing
 
 =head1 DESCRIPTION
 
-Base class for all GML XML protocol implementations.  The details about
-GML structures can differ, and therefore you should be explicit which
-versions you understand and produce.
+Provides access to the GML definitions specified in XML.  The details
+about GML structures can differ, and therefore you should be explicit
+which versions you understand and produce.
 
-The first releases of this module are not powerful, but hopefully
+If you need the <b>most recent</b> version of GML, then you get involved
+with the ISO19139 standard.  See CPAN module Geo::ISO19139.
+
+The first releases of this module will not powerful, but hopefully
 people contribute.  For instance, an example conversion script between
-various versions is very welcome!  It would be nice to 
+various versions is very welcome!  It would be nice to help each other.
+I will clean-up the implementation, to make it publishable, but do not
+have the knowledge about what is needed.
 
 =head1 METHODS
 
@@ -77,7 +68,7 @@ Please help me with the specs!
 =over 4
 
 Prefix abbreviations, to be used by cache object.  Which prefixes are
-defines slightly depends on the schema version.
+defined depends on the schema version.
 
 =back
 
@@ -89,7 +80,7 @@ defines slightly depends on the schema version.
 
 Only used when the object is created directly from this base-class.  It
 determines which GML syntax is to be used.  Can be a VERSION like "3.1.1"
-or a NAMESPACE URI like 'NS_GML_3_0'.
+or a NAMESPACE URI like 'NS_GML_300'.
 
 =back
 
@@ -155,4 +146,41 @@ example:
   print $gml->template(PERL => $type);
 
 =back
+
+=head1 SEE ALSO
+
+This module is part of Geo-GML distribution version 0.11,
+built on June 12, 2008. Website: F<http://perl.overmeer.net/geo/>
+All modules in this suite:
+L</Geo::GML>,
+L</Geo::ISO19139>,
+L</Geo::Point>,
+L</Geo::Proj4>,
+L</Geo::WKT>,
+L</Math::Polygon>
+
+Please post questions or ideas to
+F<http://geo-perl@list.hut.fi|the Geo-Perl mailinglist>
+
+Related: F<http://www.isotc211.org|ISO TC211> and
+ISO standard 19136.
+
+=head1 COPYRIGHTS
+
+=head2 License of the CODE
+
+Copyrights of the perl code and the related documentation by
+2008 by Mark Overmeer. For other contributors see ChangeLog.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+See F<http://www.perl.com/perl/misc/Artistic.html>
+
+=head2 License of the SCHEMAS
+
+The included schemas are copyrighted by the Open Geospatial Consortium, Inc.
+They are unmodified copied from the files at F<http://schemas.opengis.net>.
+Read OGCs disclaimer and copyright statements on documentation and software
+at F<http://www.opengeospatial.org/ogc/legal>.  The license text is also
+included in this CPAN distribution.
 

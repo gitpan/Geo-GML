@@ -4,26 +4,6 @@ Makefile.PL
 README
 lib/Geo/GML.pm
 lib/Geo/GML.pod
-lib/Geo/GML/2_0_0.pm
-lib/Geo/GML/2_0_0.pod
-lib/Geo/GML/2_1_1.pm
-lib/Geo/GML/2_1_1.pod
-lib/Geo/GML/2_1_2.pm
-lib/Geo/GML/2_1_2.pod
-lib/Geo/GML/2_1_2_0.pm
-lib/Geo/GML/2_1_2_0.pod
-lib/Geo/GML/2_1_2_1.pm
-lib/Geo/GML/2_1_2_1.pod
-lib/Geo/GML/3_0_0.pm
-lib/Geo/GML/3_0_0.pod
-lib/Geo/GML/3_0_1.pm
-lib/Geo/GML/3_0_1.pod
-lib/Geo/GML/3_1_0.pm
-lib/Geo/GML/3_1_0.pod
-lib/Geo/GML/3_1_1.pm
-lib/Geo/GML/3_1_1.pod
-lib/Geo/GML/3_2_1.pm
-lib/Geo/GML/3_2_1.pod
 lib/Geo/GML/Util.pm
 lib/Geo/GML/Util.pod
 lib/Geo/GML/xsd/ReadMe.txt
@@ -320,4 +300,5 @@ t/26gml301.t
 t/27gml310.t
 t/28gml311.t
 t/29gml321.t
+t/pod.t
 META.yml                                 Module meta-data (added by MakeMaker)

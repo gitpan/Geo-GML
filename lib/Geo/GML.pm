@@ -7,10 +7,10 @@ use strict;
 
 package Geo::GML;
 use vars '$VERSION';
-$VERSION = '0.10';
+$VERSION = '0.11';
 
 
-use Geo::GML::Util qw/:protocols/;
+use Geo::GML::Util;
 
 use Log::Report 'geo-gml', syntax => 'SHORT';
 use XML::Compile::Cache ();
@@ -23,17 +23,29 @@ my %ns2version =
   );
 
 # list all available versions
-my %version2pkg =
-  ( '2.0.0'   => 'Geo::GML::2_0_0'
-  , '2.1.1'   => 'Geo::GML::2_1_1'
-  , '2.1.2'   => 'Geo::GML::2_1_2'
-  , '2.1.2.0' => 'Geo::GML::2_1_2_0'
-  , '2.1.2.1' => 'Geo::GML::2_1_2_1'
-  , '3.0.0'   => 'Geo::GML::3_0_0'
-  , '3.0.1'   => 'Geo::GML::3_0_1'
-  , '3.1.0'   => 'Geo::GML::3_1_0'
-  , '3.1.1'   => 'Geo::GML::3_1_1'
-  , '3.2.1'   => 'Geo::GML::3_2_1'
+my %info =
+  ( '2.0.0'   => { prefixes => {gml => NS_GML_200}
+                 , schemas  => [ 'gml2.0.0/*.xsd' ] }
+  , '2.1.1'   => { prefixes => {gml => NS_GML_211}
+                 , schemas  => [ 'gml2.1.1/*.xsd' ] }
+  , '2.1.2'   => { prefixes => {gml => NS_GML_212}
+                 , schemas  => [ 'gml2.1.2/*.xsd' ] }
+  , '2.1.2.0' => { prefixes => {gml => NS_GML_2120}
+                 , schemas  => [ 'gml2.1.2.0/*.xsd' ] }
+  , '2.1.2.1' => { prefixes => {gml => NS_GML_2121}
+                 , schemas  => [ 'gml2.1.2.1/*.xsd' ] }
+  , '3.0.0'   => { prefixes => {gml => NS_GML_300, smil => NS_SMIL_20}
+                 , schemas  => [ 'gml3.0.0/*/*.xsd' ] }
+  , '3.0.1'   => { prefixes => {gml => NS_GML_301, smil => NS_SMIL_20}
+                 , schemas  => [ 'gml3.0.1/*/*.xsd' ] }
+  , '3.1.0'   => { prefixes => {gml => NS_GML_310, smil => NS_SMIL_20}
+                 , schemas  => [ 'gml3.1.0/*/*.xsd' ] }
+  , '3.1.1'   => { prefixes => {gml => NS_GML_311, smil => NS_SMIL_20
+                               ,gmlsf => NS_GML_311_SF}
+                 , schemas  => [ 'gml3.1.1/{base,smil,xlink}/*.xsd'
+                               , 'gml3.1.1/profile/*/*/*.xsd' ] }
+  , '3.2.1'   => { prefixes => {gml => NS_GML_321, smil => NS_SMIL_20 }
+                 , schemas  => [ 'gml3.2.1/*.xsd' ] }
   );
 
 # This list must be extended, but I do not know what people need.
@@ -41,42 +53,44 @@ my @declare_always =
     qw/gml:TopoSurface/;
 
 
-sub new(@)
-{   my $class = shift;
-    return +(bless {}, $class)->init( {direction => @_} )->declare
-        if $class ne __PACKAGE__;
-
-    my ($direction, %args) = @_;
-
-    # having a default here cannot be maintained over the years.
-    my $version = delete $args{version}
-        or error __x"a GML object needs to have an explicit version\n";
-
-    $version    = $ns2version{$version} || $version;
-
-    my $pkg     = $version2pkg{$version}
-        or error __x"no GML implementation for version '{version}'"
-             , version => $version;
-
-    eval "require $pkg";
-    $@ and die $@;
-
-    $pkg->new($direction, %args);
+sub new($@)
+{   my ($class, $dir) = (shift, shift);
+    (bless {}, $class)->init( {direction => $dir, @_} );
 }
 
 sub init($)
 {   my ($self, $args) = @_;
-    $self->{GG_dir}     = $args->{direction} or panic "no direction";
-    $self->{GG_version} = $args->{version}   or panic "no version";
+    $self->{GG_dir} = $args->{direction} or panic "no direction";
+
+    my $version     =  $args->{version}
+        or error __x"GML object requires an explicit version";
+
+    unless(exists $info{$version})
+    {   exists $ns2version{$version}
+            or error __x"GML version {v} not recognized", v => $version;
+        $version = $ns2version{$version};
+    }
+    $self->{GG_version} = $version;    
+    my $info    = $info{$version};
+
+    my %prefs   = %{$info->{prefixes}};
+    my @xsds    = @{$info->{schemas}};
+
+    # all known schemas need xlink
+    $prefs{xlink} = NS_XLINK_1999;
+    push @xsds, 'xlink1.0.0/*.xsd';
 
     my $undecl
       = exists $args->{allow_undeclared} ? $args->{allow_undeclared} : 1;
 
-    $self->{GG_schemas} = $args->{schemas}
+    my $schemas = $self->{GG_schemas} = $args->{schemas}
      || XML::Compile::Cache->new
-         ( prefixes         => $args->{prefixes}
+         ( prefixes         => \%prefs
          , allow_undeclared => $undecl
          );
+
+    (my $xsd = __FILE__) =~ s!\.pm!/xsd!;
+    $schemas->importDefinitions( [map {glob "$xsd/$_"} @xsds] );
     $self;
 }
 

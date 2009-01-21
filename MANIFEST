@@ -4,6 +4,8 @@ Makefile.PL
 README
 lib/Geo/GML.pm
 lib/Geo/GML.pod
+lib/Geo/GML/GeoPoint.pm
+lib/Geo/GML/GeoPoint.pod
 lib/Geo/GML/Util.pm
 lib/Geo/GML/Util.pod
 lib/Geo/GML/xsd/ReadMe.txt
@@ -300,5 +302,7 @@ t/26gml301.t
 t/27gml310.t
 t/28gml311.t
 t/29gml321.t
+t/40gpgml3.t
+t/41gpgml2.t
 t/pod.t
 META.yml                                 Module meta-data (added by MakeMaker)

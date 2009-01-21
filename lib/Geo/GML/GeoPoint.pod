@@ -1,46 +1,43 @@
 =head1 NAME
 
-Geo::GML::Util - GML useful constants
-
-=head1 INHERITANCE
-
- Geo::GML::Util
-   is a Exporter
+Geo::GML::GeoPoint - convert Geo::Point objects into GML
 
 =head1 SYNOPSIS
 
-  use Geo::GML;
-  use Geo::GML::Util ':gml311';
+ my $geopoint = Geo::Surface->new(...);
+ my $gml  = Geo::GML->new('WRITER', version => '3.2.1');
+ my $data;
+ $data->{..somewhere..} = $gml->GPtoGML($geopoint);
 
 =head1 DESCRIPTION
 
-XML uses long URLs to represent name-spaces, which must be used without
-typos.  Therefore, it is better to use constants instead: the main
-purpose for this module.
+Convert Geo::Point objects into GML data structures.  The implementation
+is partial: please help with providing me with examples.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
-=head2 Constants
+=head2 Helpers
 
-=head3 Export Tag :protocols
+$obj-E<gt>B<GPtoGML>(OBJECT, OPTIONS)
 
-This tag will give you access to the the name-space constants for
-all recognisable GML versions, like NS_GML_32.
+=over 4
 
-=head3 Export Tags
+ Option--Default
+ srs     <from OBJECT>
 
-The following tags define all what you need per version.
+. srs => SRS-name
 
-  :gml200    2.0.0
-  :gml211    2.1.1
-  :gml212    2.1.2
-  :gml2120   2.1.2.0
-  :gml2121   2.1.2.1
-  :gml300    3.0.0
-  :gml301    3.0.1
-  :gml310    3.1.0
-  :gml311    3.1.1
-  :gml321    3.2.1
+=over 4
+
+Overrule the projection name as found in the Geo::Point object, which
+is just a simple label.  Be sure that your OBJECT is in the correct
+projection, for instance via
+
+   $gml->GPtoGML($gp->in('wgs84'), srs => 'EPGS:4326');
+
+=back
+
+=back
 
 =head1 SEE ALSO
 

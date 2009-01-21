@@ -4,9 +4,15 @@ Geo::GML - Geography Markup Language processing
 
 =head1 INHERITANCE
 
+ Geo::GML has extra code in
+   Geo::GML::GeoPoint
+
+ Geo::GML
+   is a XML::Compile::Cache
+
 =head1 SYNOPSIS
 
- use Geo::GML   qw/gml321/;
+ use Geo::GML ':gml321';
 
  my $gml = Geo::GML->new('READER', version => '3.2.1');
 
@@ -15,11 +21,17 @@ Geo::GML - Geography Markup Language processing
  my $xml  = $gml->writer($sometype)->($doc, $perldata);
 
  # or without help of the cache, XML::Compile::Schema
- my $r    = $gml->schemas->compile(READER => $sometype);
+ my $r    = $gml->compile(READER => $sometype);
  my $data = $r->($xml);
 
  # overview (large) on all defined elements
  $gml->printIndex;
+
+ # To discover the perl datastructures to be passed
+ print $gml->template("gml:Surface");
+
+ # autoloaded logic to convert Geo::Point into GML
+ $data->{...somewhere...} = $gml->GPtoGML($objects);
 
 =head1 DESCRIPTION
 
@@ -47,7 +59,6 @@ Geo::GML-E<gt>B<new>('READER'|'WRITER'|'RW', OPTIONS)
  Option          --Default
  allow_undeclared  <true>
  prefixes          undef
- schemas           <created internally>
  version           <required>
 
 . allow_undeclared => BOOLEAN
@@ -72,8 +83,6 @@ defined depends on the schema version.
 
 =back
 
-. schemas => XML::Compile::Cache object
-
 . version => VERSION|NAMESPACE
 
 =over 4
@@ -96,14 +105,6 @@ Returns 'READER', 'WRITER', or 'RW'.
 
 =back
 
-$obj-E<gt>B<schemas>
-
-=over 4
-
-Returns the internal schema object, type XML::Compile::Cache.
-
-=back
-
 $obj-E<gt>B<version>
 
 =over 4
@@ -112,20 +113,7 @@ GML version, for instance '3.2.1'.
 
 =back
 
-=head2 Helpers
-
-$obj-E<gt>B<printIndex>([FILEHANDLE], OPTIONS)
-
-=over 4
-
-List all the elements which can be produced with the schema.  This will
-call XML::Compile::Cache subroutine printIndex to show (by default) only
-the elements and exclude the abstract elements from the list.
-
-The selected FILEHANDLE is the default.  OPTIONS overrule the defaults
-which are passed to that C<printIndex()>.
-
-=back
+=head2 Compilers
 
 $obj-E<gt>B<template>('PERL'|'XML', TYPE, OPTIONS)
 
@@ -141,36 +129,63 @@ example:
   use Geo::GML;
   use Geo::GML::Util     qw/NS_GML_321/;
   use XML::Compile::Util qw/pack_type/;
-  my $type = pack_type NS_GML_321, 'RectifiedGridCoverage';
-  my $gml  = Geo::GML->new(version => NS_GML_321);
-  print $gml->template(PERL => $type);
+  my $gml   = Geo::GML->new(version => NS_GML_321);
+
+  # to simplify the output, reducing often available large blocks
+  my @types = qw/gml:MetaDataPropertyType gml:StringOrRefType
+     gml:ReferenceType/;
+  my %hook  = (type => \@collapse_types, replace => 'COLLAPSE');
+
+  # generate the data-structure
+  my $type  = 'gml:RectifiedGridCoverage';  # any element name
+  print $gml->template(PERL => $type, hook => \%hook);
+
+=back
+
+=head2 Helpers
+
+$obj-E<gt>B<GPtoGML>(OBJECT, OPTIONS)
+
+=over 4
+
+See L<Geo::GML::GeoPoint/"Helpers">
+
+=back
+
+=head2 Administration
+
+$obj-E<gt>B<printIndex>([FILEHANDLE], OPTIONS)
+
+=over 4
+
+List all the elements which can be produced with the schema.  By default,
+this only shows the elements and excludes the abstract elements from
+the list.  The selected FILEHANDLE is the default to print to.
 
 =back
 
 =head1 SEE ALSO
 
-This module is part of Geo-GML distribution version 0.11,
-built on June 12, 2008. Website: F<http://perl.overmeer.net/geo/>
+This module is part of Geo-GML distribution version 0.12,
+built on January 21, 2009. Website: F<http://perl.overmeer.net/geo/>
 All modules in this suite:
 L</Geo::GML>,
 L</Geo::ISO19139>,
+L</Geo::EOP>,
 L</Geo::Point>,
 L</Geo::Proj4>,
-L</Geo::WKT>,
-L</Math::Polygon>
+L</Geo::WKT>, and
+L</Math::Polygon>.
 
 Please post questions or ideas to
 F<http://geo-perl@list.hut.fi|the Geo-Perl mailinglist>
-
-Related: F<http://www.isotc211.org|ISO TC211> and
-ISO standard 19136.
 
 =head1 COPYRIGHTS
 
 =head2 License of the CODE
 
 Copyrights of the perl code and the related documentation by
-2008 by Mark Overmeer. For other contributors see ChangeLog.
+2008-2009 by Mark Overmeer. For other contributors see ChangeLog.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

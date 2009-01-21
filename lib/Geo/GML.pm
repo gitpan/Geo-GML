@@ -1,19 +1,19 @@
-# Copyrights 2008 by Mark Overmeer.
+# Copyrights 2008-2009 by Mark Overmeer.
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 1.04.
+# Pod stripped from pm file by OODoc 1.05.
 use warnings;
 use strict;
 
 package Geo::GML;
 use vars '$VERSION';
-$VERSION = '0.11';
+$VERSION = '0.12';
 
+use base 'XML::Compile::Cache';
 
 use Geo::GML::Util;
 
 use Log::Report 'geo-gml', syntax => 'SHORT';
-use XML::Compile::Cache ();
 use XML::Compile::Util  qw/unpack_type pack_type/;
 
 # map namespace always to the newest implementation of the protocol
@@ -45,21 +45,29 @@ my %info =
                  , schemas  => [ 'gml3.1.1/{base,smil,xlink}/*.xsd'
                                , 'gml3.1.1/profile/*/*/*.xsd' ] }
   , '3.2.1'   => { prefixes => {gml => NS_GML_321, smil => NS_SMIL_20 }
-                 , schemas  => [ 'gml3.2.1/*.xsd' ] }
+                 , schemas  => [ 'gml3.2.1/*.xsd', 'gml3.1.1/smil/*.xsd' ] }
   );
 
 # This list must be extended, but I do not know what people need.
 my @declare_always =
     qw/gml:TopoSurface/;
 
+# for Geo::EOP and other stripped-down GML versions
+sub _register_gml_version($$) { $info{$_[1]} = $_[2] }
+
 
 sub new($@)
 {   my ($class, $dir) = (shift, shift);
-    (bless {}, $class)->init( {direction => $dir, @_} );
+    $class->SUPER::new(direction => $dir, @_);
 }
 
 sub init($)
 {   my ($self, $args) = @_;
+    $args->{allow_undeclared} = 1
+        unless exists $args->{allow_undeclared};
+
+    $self->SUPER::init($args);
+
     $self->{GG_dir} = $args->{direction} or panic "no direction";
 
     my $version     =  $args->{version}
@@ -73,34 +81,22 @@ sub init($)
     $self->{GG_version} = $version;    
     my $info    = $info{$version};
 
-    my %prefs   = %{$info->{prefixes}};
-    my @xsds    = @{$info->{schemas}};
-
-    # all known schemas need xlink
-    $prefs{xlink} = NS_XLINK_1999;
-    push @xsds, 'xlink1.0.0/*.xsd';
-
-    my $undecl
-      = exists $args->{allow_undeclared} ? $args->{allow_undeclared} : 1;
-
-    my $schemas = $self->{GG_schemas} = $args->{schemas}
-     || XML::Compile::Cache->new
-         ( prefixes         => \%prefs
-         , allow_undeclared => $undecl
-         );
+    $self->prefixes(xlink => NS_XLINK_1999, %{$info->{prefixes}});
 
     (my $xsd = __FILE__) =~ s!\.pm!/xsd!;
-    $schemas->importDefinitions( [map {glob "$xsd/$_"} @xsds] );
+    my @xsds    = map {glob "$xsd/$_"}
+        @{$info->{schemas} || []}, 'xlink1.0.0/*.xsd';
+
+    $self->importDefinitions(\@xsds);
     $self;
 }
 
 sub declare(@)
 {   my $self = shift;
 
-    my $schemas   = $self->schemas;
     my $direction = $self->direction;
 
-    $schemas->declare($direction, $_)
+    $self->declare($direction, $_)
         for @_, @declare_always;
 
     $self;
@@ -109,24 +105,35 @@ sub declare(@)
 #---------------------------------
 
 
-sub schemas()   {shift->{GG_schemas}}
 sub version()   {shift->{GG_version}}
 sub direction() {shift->{GG_dir}}
 
 #---------------------------------
 
 
-sub template($$@)
-{   my ($self, $format, $type) = (shift, shift, shift);
-    $self->schemas->template($format, $type, @_);
-}
+# just added as example, implemented in super-class
+
+#------------------
 
 
 sub printIndex(@)
 {   my $self = shift;
     my $fh   = @_ % 2 ? shift : select;
-    $self->schemas->printIndex($fh
+    $self->SUPER::printIndex($fh
       , kinds => 'element', list_abstract => 0, @_); 
+}
+
+our $AUTOLOAD;
+sub AUTOLOAD(@)
+{   my $self = shift;
+    my $call = $AUTOLOAD;
+    return if $call =~ m/::DESTROY$/;
+    my ($pkg, $method) = $call =~ m/(.+)\:\:([^:]+)$/;
+    $method eq 'GPtoGML'
+        or error __x"method {name} not implemented", name => $call;
+    eval "require Geo::GML::GeoPoint";
+    panic $@ if $@;
+    $self->$call(@_);
 }
 
 1;

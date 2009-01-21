@@ -20,7 +20,7 @@ use Geo::GML::Util    ':gml321';
 use Data::Dumper;
 $Data::Dumper::Indent = 1;
 
-my $gml = Geo::GML->new('WRITER', version => '3.2.1');  # Geo::EOP tests 3.1.1
+my $gml = Geo::GML->new('WRITER', version => '3.2.1');
 
 # Don't expand these in template display: appears too often
 my @collapse_types = qw/
@@ -91,7 +91,7 @@ is_deeply($data, $expected, 'nested GML surface');
 
 ### now create XML
 
-my $w = $gml->writer('gml:multiExtentOf', key_rewrite => 'PREFIXED');
+my $w = $gml->writer('gml:multiExtentOf');
 isa_ok($w, 'CODE', 'extendOf');
 
 my $doc = XML::LibXML::Document->new('1.0', 'UTF-8');
@@ -134,7 +134,7 @@ my $expected2 = {
 #warn Dumper $data2;
 is_deeply($data2, $expected2, 'GML point');
 
-my $w2 = $gml->writer('gml:centerOf', key_rewrite => 'PREFIXED');
+my $w2 = $gml->writer('gml:centerOf');
 isa_ok($w2, 'CODE', 'centerOf');
 
 my $xml2 = $w2->($doc, $data2);
@@ -175,7 +175,7 @@ is_deeply($data3, $expected3, 'GML line');
 
 =for don't know a ring type :(
 
-my $w3 = $gml->writer('gml:centerOf', key_rewrite => 'PREFIXED');
+my $w3 = $gml->writer('gml:centerOf');
 isa_ok($w3, 'CODE', 'centerOf');
 
 my $xml3 = $w3->($doc, $data3);

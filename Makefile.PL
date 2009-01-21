@@ -4,7 +4,7 @@ use 5.008;
 
 WriteMakefile
  ( NAME	 	=> 'Geo::GML'
- , VERSION	=> '0.12'
+ , VERSION	=> '0.13'
  , PREREQ_PM    =>
    { XML::Compile         => '1.00'
    , XML::Compile::Tester => 0.04
@@ -28,6 +28,8 @@ sub MY::postamble { <<'__POSTAMBLE' }
 RAWDIR          = ../public_html/geo-gml/raw
 DISTDIR         = ../public_html/geo-gml/source
 LICENSE         = artistic
+
+EXTENDS		= ../XMLCache:../XMLCompile
 
 # for POD
 FIRST_YEAR      = 2008

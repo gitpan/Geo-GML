@@ -7,7 +7,7 @@ use strict;
 
 package Geo::GML;
 use vars '$VERSION';
-$VERSION = '0.12';
+$VERSION = '0.13';
 
 use base 'XML::Compile::Cache';
 
@@ -65,6 +65,13 @@ sub init($)
 {   my ($self, $args) = @_;
     $args->{allow_undeclared} = 1
         unless exists $args->{allow_undeclared};
+
+    $args->{opts_rw} = { @{$args->{opts_rw}} }
+        if ref $args->{opts_rw} eq 'ARRAY';
+    $args->{opts_rw}{key_rewrite} = 'PREFIXED';
+    $args->{opts_rw}{mixed_elements} = 'STRUCTURAL';
+
+    $args->{any_element}         ||= 'ATTEMPT';
 
     $self->SUPER::init($args);
 

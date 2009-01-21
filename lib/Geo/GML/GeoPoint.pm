@@ -8,7 +8,7 @@ use strict;
 # extends the implementation of Geo::GML, autoloaded
 package Geo::GML;
 use vars '$VERSION';
-$VERSION = '0.12';
+$VERSION = '0.13';
 
 
 use Log::Report 'geo-gml', syntax => 'SHORT';

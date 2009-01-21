@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Geo-GML
-version:             0.12
+version:             0.13
 abstract:            Process Geography Markup Language
 license:             perl
 author:              

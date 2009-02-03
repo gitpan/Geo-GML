@@ -1,5 +1,5 @@
-=== README for Geo-GML version 0.12
-=   Generated on Wed Jan 21 11:14:05 2009 by OODoc 1.05
+=== README for Geo-GML version 0.14
+=   Generated on Tue Feb  3 13:10:43 2009 by OODoc 1.06
 
 There are various ways to install this module:
 
@@ -9,16 +9,16 @@ There are various ways to install this module:
  (2) if you use Windows, have a look at http://ppm.activestate.com/
 
  (3) if you have downloaded this module manually (as root/administrator)
-       gzip -d Geo-GML-0.12.tar.gz
-       tar -xf Geo-GML-0.12.tar
-       cd Geo-GML-0.12
+       gzip -d Geo-GML-0.14.tar.gz
+       tar -xf Geo-GML-0.14.tar
+       cd Geo-GML-0.14
        perl Makefile.PL
        make          # optional
        make test     # optional
        make install
 
 For usage, see the included manual-pages or
-    http://search.cpan.org/dist/Geo-GML-0.12/
+    http://search.cpan.org/dist/Geo-GML-0.14/
 
 Please report problems to
     http://rt.cpan.org/Dist/Display.html?Queue=Geo-GML

@@ -242,6 +242,14 @@ See L<XML::Compile::Cache/"Accessors">
 
 =back
 
+$obj-E<gt>B<useSchema>(SCHEMA, [SCHEMA])
+
+=over 4
+
+See L<XML::Compile::Schema/"Accessors">
+
+=back
+
 $obj-E<gt>B<version>
 
 =over 4
@@ -268,7 +276,7 @@ See L<XML::Compile::Cache/"Compilers">
 
 =back
 
-$obj-E<gt>B<dataToXML>(NODE|REF-XML-STRING|XML-STRING|FILENAME|FILEHANDLE|KNOWN)
+Geo::GML-E<gt>B<dataToXML>(NODE|REF-XML-STRING|XML-STRING|FILENAME|FILEHANDLE|KNOWN)
 
 =over 4
 
@@ -374,6 +382,8 @@ See L<XML::Compile::Cache/"Administration">
 
 $obj-E<gt>B<findSchemaFile>(FILENAME)
 
+Geo::GML-E<gt>B<findSchemaFile>(FILENAME)
+
 =over 4
 
 See L<XML::Compile/"Administration">
@@ -459,8 +469,8 @@ Error: don't known how to interpret XML data
 
 =head1 SEE ALSO
 
-This module is part of Geo-GML distribution version 0.13,
-built on January 21, 2009. Website: F<http://perl.overmeer.net/geo/>
+This module is part of Geo-GML distribution version 0.14,
+built on February 03, 2009. Website: F<http://perl.overmeer.net/geo/>
 All modules in this suite:
 L</Geo::GML>,
 L</Geo::ISO19139>,

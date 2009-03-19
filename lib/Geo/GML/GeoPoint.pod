@@ -41,8 +41,8 @@ projection, for instance via
 
 =head1 SEE ALSO
 
-This module is part of Geo-GML distribution version 0.14,
-built on February 03, 2009. Website: F<http://perl.overmeer.net/geo/>
+This module is part of Geo-GML distribution version 0.15,
+built on March 19, 2009. Website: F<http://perl.overmeer.net/geo/>
 All modules in this suite:
 L</Geo::GML>,
 L</Geo::ISO19139>,

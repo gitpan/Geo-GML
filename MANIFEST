@@ -2,6 +2,7 @@ ChangeLog
 MANIFEST
 Makefile.PL
 README
+examples/read_gml.pl
 lib/Geo/GML.pm
 lib/Geo/GML.pod
 lib/Geo/GML/GeoPoint.pm

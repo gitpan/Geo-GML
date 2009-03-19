@@ -7,14 +7,14 @@ use strict;
 
 package Geo::GML;
 use vars '$VERSION';
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 use base 'XML::Compile::Cache';
 
 use Geo::GML::Util;
 
 use Log::Report 'geo-gml', syntax => 'SHORT';
-use XML::Compile::Util  qw/unpack_type pack_type/;
+use XML::Compile::Util  qw/unpack_type pack_type type_of_node/;
 
 # map namespace always to the newest implementation of the protocol
 my %ns2version =
@@ -107,6 +107,24 @@ sub declare(@)
         for @_, @declare_always;
 
     $self;
+}
+
+
+sub from($@)
+{   my ($class, $data, %args) = @_;
+    my $xml = XML::Compile->dataToXML($data);
+
+    my $top = type_of_node $xml;
+    my $ns  = (unpack_type $top)[0];
+
+    my $version = $ns2version{$ns}
+        or error __x"unknown GML version with namespace {ns}", ns => $ns;
+
+    my $self = $class->new('READER', version => $version);
+    my $r   = $self->reader($top, %args)
+        or error __x"root node `{top}' not recognized", top => $top;
+
+    ($top, $r->($xml));
 }
 
 #---------------------------------

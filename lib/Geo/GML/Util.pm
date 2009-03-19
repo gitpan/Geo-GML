@@ -7,7 +7,7 @@ use strict;
 
 package Geo::GML::Util;
 use vars '$VERSION';
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 use base 'Exporter';
 

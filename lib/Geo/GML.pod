@@ -26,6 +26,9 @@ Geo::GML - Geography Markup Language processing
  my $r    = $gml->compile(READER => $sometype);
  my $data = $r->($xml);
 
+ # super simple
+ my ($type, $data) = Geo::GML->from('data.xml');
+
  # overview (large) on all defined elements
  $gml->printIndex;
 
@@ -53,6 +56,26 @@ have the knowledge about what is needed.
 =head1 METHODS
 
 =head2 Constructors
+
+Geo::GML-E<gt>B<from>(XMLDATA, OPTIONS)
+
+=over 4
+
+Read a EOP structure from a data source, which can be anything acceptable
+by L<dataToXML()|XML::Compile/"Compilers">: a XML::LibXML::Element, XML as string or ref-string,
+filename, filehandle or known namespace.
+
+Returned is the product (the type of the root node) and the parsed
+data-structure.  The EOP version used for decoding is autodetected,
+unless specified.
+
+See F<examples/read_gml.pl>
+
+example: 
+
+  my ($type, $data) = Geo::GML->from('data.xml');
+
+=back
 
 Geo::GML-E<gt>B<new>('READER'|'WRITER'|'RW', OPTIONS)
 
@@ -152,7 +175,7 @@ See L<XML::Compile::Schema/"Accessors">
 
 =back
 
-$obj-E<gt>B<addKeyRewrite>(CODE|HASH, CODE|HASH, ...)
+$obj-E<gt>B<addKeyRewrite>(PREDEF|CODE|HASH, ...)
 
 =over 4
 
@@ -302,15 +325,18 @@ template generator, the only reason to have this method, is to avoid
 the need to collect all the GML XML files yourself.
 
  Option              --Defined in     --Default
+ abstract_types        XML::Compile::Schema  'IGNORE'
  attributes_qualified  XML::Compile::Schema  <undef>
  elements_qualified    XML::Compile::Schema  <undef>
  include_namespaces    XML::Compile::Schema  <true>
  indent                XML::Compile::Schema  " "
  show_comments         XML::Compile::Schema  ALL
 
+. abstract_types => 'ERROR'|'IGNORE'|'ACCEPT'
+
 . attributes_qualified => BOOLEAN
 
-. elements_qualified => C<ALL>|C<TOP>|C<NONE>|BOOLEAN
+. elements_qualified => 'ALL'|'TOP'|'NONE'|BOOLEAN
 
 . include_namespaces => BOOLEAN
 
@@ -469,8 +495,8 @@ Error: don't known how to interpret XML data
 
 =head1 SEE ALSO
 
-This module is part of Geo-GML distribution version 0.14,
-built on February 03, 2009. Website: F<http://perl.overmeer.net/geo/>
+This module is part of Geo-GML distribution version 0.15,
+built on March 19, 2009. Website: F<http://perl.overmeer.net/geo/>
 All modules in this suite:
 L</Geo::GML>,
 L</Geo::ISO19139>,

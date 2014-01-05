@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 Geo::GML::GeoPoint - convert Geo::Point objects into GML
@@ -18,16 +20,16 @@ is partial: please help with providing me with examples.
 
 =head2 Helpers
 
-$obj-E<gt>B<GPtoGML>(OBJECT, OPTIONS)
-
 =over 4
 
- Option--Default
- srs     <from OBJECT>
+=item $obj-E<gt>B<GPtoGML>(OBJECT, OPTIONS)
 
-. srs => SRS-name
+ -Option--Default
+  srs     <from OBJECT>
 
-=over 4
+=over 2
+
+=item srs => SRS-name
 
 Overrule the projection name as found in the Geo::Point object, which
 is just a simple label.  Be sure that your OBJECT is in the correct
@@ -41,8 +43,8 @@ projection, for instance via
 
 =head1 SEE ALSO
 
-This module is part of Geo-GML distribution version 0.15,
-built on March 19, 2009. Website: F<http://perl.overmeer.net/geo/>
+This module is part of Geo-GML distribution version 0.16,
+built on January 05, 2014. Website: F<http://perl.overmeer.net/geo/>
 All modules in this suite:
 L</Geo::GML>,
 L</Geo::ISO19139>,
@@ -53,14 +55,14 @@ L</Geo::WKT>, and
 L</Math::Polygon>.
 
 Please post questions or ideas to
-F<http://geo-perl@list.hut.fi|the Geo-Perl mailinglist>
+F<https://list.hut.fi/mailman/listinfo/geo-perl|the Geo-Perl mailinglist>
 
 =head1 COPYRIGHTS
 
 =head2 License of the CODE
 
 Copyrights of the perl code and the related documentation by
-2008-2009 by Mark Overmeer. For other contributors see ChangeLog.
+2008-2014 by [Mark Overmeer]. For other contributors see ChangeLog.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

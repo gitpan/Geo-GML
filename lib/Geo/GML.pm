@@ -1,13 +1,13 @@
-# Copyrights 2008-2009 by Mark Overmeer.
+# Copyrights 2008-2014 by [Mark Overmeer].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 1.06.
+# Pod stripped from pm file by OODoc 2.01.
 use warnings;
 use strict;
 
 package Geo::GML;
 use vars '$VERSION';
-$VERSION = '0.15';
+$VERSION = '0.16';
 
 use base 'XML::Compile::Cache';
 
@@ -88,7 +88,7 @@ sub init($)
     $self->{GG_version} = $version;    
     my $info    = $info{$version};
 
-    $self->prefixes(xlink => NS_XLINK_1999, %{$info->{prefixes}});
+    $self->addPrefixes(xlink => NS_XLINK_1999, %{$info->{prefixes}});
 
     (my $xsd = __FILE__) =~ s!\.pm!/xsd!;
     my @xsds    = map {glob "$xsd/$_"}

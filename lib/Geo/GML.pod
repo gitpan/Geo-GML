@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 Geo::GML - Geography Markup Language processing
@@ -53,13 +55,19 @@ various versions is very welcome!  It would be nice to help each other.
 I will clean-up the implementation, to make it publishable, but do not
 have the knowledge about what is needed.
 
+See L<documentation in the base class|XML::Compile::Cache/"DESCRIPTION">.
+ 
 =head1 METHODS
 
+See L<documentation in the base class|XML::Compile::Cache/"METHODS">.
+ 
 =head2 Constructors
 
-Geo::GML-E<gt>B<from>(XMLDATA, OPTIONS)
-
+See L<documentation in the base class|XML::Compile::Cache/"Constructors">.
+ 
 =over 4
+
+=item Geo::GML-E<gt>B<from>(XMLDATA, OPTIONS)
 
 Read a EOP structure from a data source, which can be anything acceptable
 by L<dataToXML()|XML::Compile/"Compilers">: a XML::LibXML::Element, XML as string or ref-string,
@@ -75,30 +83,29 @@ example:
 
   my ($type, $data) = Geo::GML->from('data.xml');
 
-=back
+=item Geo::GML-E<gt>B<new>('READER'|'WRITER'|'RW', OPTIONS)
 
-Geo::GML-E<gt>B<new>('READER'|'WRITER'|'RW', OPTIONS)
+ -Option            --Defined in          --Default
+  allow_undeclared                          <true>
+  any_element         XML::Compile::Cache   ATTEMPT
+  block_namespace     XML::Compile::Schema  []
+  hook                XML::Compile::Schema  undef
+  hooks               XML::Compile::Schema  []
+  ignore_unused_tags  XML::Compile::Schema  <false>
+  key_rewrite         XML::Compile::Schema  []
+  opts_readers        XML::Compile::Cache   []
+  opts_rw             XML::Compile::Cache   <some>
+  opts_writers        XML::Compile::Cache   []
+  parser_options      XML::Compile          <many>
+  prefixes                                  undef
+  schema_dirs         XML::Compile          undef
+  typemap             XML::Compile::Cache   {}
+  version                                   <required>
+  xsi_type            XML::Compile::Cache   {}
 
-=over 4
+=over 2
 
- Option            --Defined in     --Default
- allow_undeclared                     <true>
- any_element         XML::Compile::Cache  ATTEMPT
- hook                XML::Compile::Schema  undef
- hooks               XML::Compile::Schema  []
- ignore_unused_tags  XML::Compile::Schema  <false>
- key_rewrite         XML::Compile::Schema  []
- opts_readers        XML::Compile::Cache  []
- opts_rw             XML::Compile::Cache  <some>
- opts_writers        XML::Compile::Cache  []
- prefixes                             undef
- schema_dirs         XML::Compile     undef
- typemap             XML::Compile::Schema  {}
- version                              <required>
-
-. allow_undeclared => BOOLEAN
-
-=over 4
+=item allow_undeclared => BOOLEAN
 
 In the optimal case, all types used in your application are declared
 during the initiation phase of your program.  This will make it easy
@@ -114,44 +121,42 @@ The GML specification will require PREFIXED key rewrite, because the
 complexity of namespaces is enormous.  Besides, mixed elements are
 processed as STRUCTURAL by default (mixed in texts ignored).
 
-=back
+=item any_element => CODE|'TAKE_ALL'|'SKIP_ALL'|'ATTEMPT'|'SLOPPY'
 
-. any_element => CODE|'TAKE_ALL'|'SKIP_ALL'|'ATTEMPT'
+=item block_namespace => NAMESPACE|TYPE|HASH|CODE|ARRAY
 
-. hook => ARRAY-WITH-HOOKDATA | HOOK
+=item hook => ARRAY-WITH-HOOKDATA | HOOK
 
-. hooks => ARRAY-OF-HOOK
+=item hooks => ARRAY-OF-HOOK
 
-. ignore_unused_tags => BOOLEAN|REGEXP
+=item ignore_unused_tags => BOOLEAN|REGEXP
 
-. key_rewrite => HASH|CODE|ARRAY-of-HASH-and-CODE
+=item key_rewrite => HASH|CODE|ARRAY-of-HASH-and-CODE
 
-. opts_readers => HASH|ARRAY-of-PAIRS
+=item opts_readers => HASH|ARRAY-of-PAIRS
 
-. opts_rw => HASH|ARRAY-of-PAIRS
+=item opts_rw => HASH|ARRAY-of-PAIRS
 
-. opts_writers => HASH|ARRAY-of-PAIRS
+=item opts_writers => HASH|ARRAY-of-PAIRS
 
-. prefixes => ARRAY|HASH
+=item parser_options => HASH|ARRAY
 
-=over 4
+=item prefixes => ARRAY|HASH
 
 Prefix abbreviations, to be used by cache object.  Which prefixes are
 defined depends on the schema version.
 
-=back
+=item schema_dirs => DIRECTORY|ARRAY-OF-DIRECTORIES
 
-. schema_dirs => DIRECTORY|ARRAY-OF-DIRECTORIES
+=item typemap => HASH|ARRAY
 
-. typemap => HASH
-
-. version => VERSION|NAMESPACE
-
-=over 4
+=item version => VERSION|NAMESPACE
 
 Only used when the object is created directly from this base-class.  It
 determines which GML syntax is to be used.  Can be a VERSION like "3.1.1"
 or a NAMESPACE URI like 'NS_GML_300'.
+
+=item xsi_type => HASH|ARRAY
 
 =back
 
@@ -159,190 +164,180 @@ or a NAMESPACE URI like 'NS_GML_300'.
 
 =head2 Accessors
 
-$obj-E<gt>B<addHook>(HOOKDATA|HOOK|undef)
-
+See L<documentation in the base class|XML::Compile::Cache/"Accessors">.
+ 
 =over 4
+
+=item $obj-E<gt>B<addHook>(HOOKDATA|HOOK|undef)
 
 See L<XML::Compile::Schema/"Accessors">
 
-=back
-
-$obj-E<gt>B<addHooks>(HOOK, [HOOK, ...])
-
-=over 4
+=item $obj-E<gt>B<addHooks>(HOOK, [HOOK, ...])
 
 See L<XML::Compile::Schema/"Accessors">
 
-=back
-
-$obj-E<gt>B<addKeyRewrite>(PREDEF|CODE|HASH, ...)
-
-=over 4
+=item $obj-E<gt>B<addKeyRewrite>(PREDEF|CODE|HASH, ...)
 
 See L<XML::Compile::Schema/"Accessors">
 
-=back
+=item $obj-E<gt>B<addSchemaDirs>(DIRECTORIES|FILENAME)
 
-$obj-E<gt>B<addSchemaDirs>(DIRECTORIES|FILENAME)
-
-Geo::GML-E<gt>B<addSchemaDirs>(DIRECTORIES|FILENAME)
-
-=over 4
+=item Geo::GML-E<gt>B<addSchemaDirs>(DIRECTORIES|FILENAME)
 
 See L<XML::Compile/"Accessors">
 
-=back
-
-$obj-E<gt>B<addSchemas>(XML, OPTIONS)
-
-=over 4
+=item $obj-E<gt>B<addSchemas>(XML, OPTIONS)
 
 See L<XML::Compile::Schema/"Accessors">
 
-=back
-
-$obj-E<gt>B<addTypemap>(PAIR)
-
-=over 4
+=item $obj-E<gt>B<addTypemap>(PAIR)
 
 See L<XML::Compile::Schema/"Accessors">
 
-=back
-
-$obj-E<gt>B<addTypemaps>(PAIRS)
-
-=over 4
+=item $obj-E<gt>B<addTypemaps>(PAIRS)
 
 See L<XML::Compile::Schema/"Accessors">
 
-=back
-
-$obj-E<gt>B<allowUndeclared>([BOOLEAN])
-
-=over 4
+=item $obj-E<gt>B<addXsiType>([HASH|ARRAY|LIST])
 
 See L<XML::Compile::Cache/"Accessors">
 
-=back
+=item $obj-E<gt>B<allowUndeclared>([BOOLEAN])
 
-$obj-E<gt>B<direction>
+See L<XML::Compile::Cache/"Accessors">
 
-=over 4
+=item $obj-E<gt>B<anyElement>('ATTEMPT'|'SLOPPY'|'SKIP_ALL'|'TAKE_ALL'|CODE)
+
+See L<XML::Compile::Cache/"Accessors">
+
+=item $obj-E<gt>B<blockNamespace>(NAMESPACE|TYPE|HASH|CODE|ARRAY)
+
+See L<XML::Compile::Schema/"Accessors">
+
+=item $obj-E<gt>B<direction>()
 
 Returns 'READER', 'WRITER', or 'RW'.
 
-=back
-
-$obj-E<gt>B<hooks>
-
-=over 4
+=item $obj-E<gt>B<hooks>([READER|WRITER])
 
 See L<XML::Compile::Schema/"Accessors">
 
-=back
-
-$obj-E<gt>B<prefix>(PREFIX)
-
-=over 4
+=item $obj-E<gt>B<typemap>([HASH|ARRAY|PAIRS])
 
 See L<XML::Compile::Cache/"Accessors">
 
-=back
-
-$obj-E<gt>B<prefixFor>(URI)
-
-=over 4
-
-See L<XML::Compile::Cache/"Accessors">
-
-=back
-
-$obj-E<gt>B<prefixes>([PAIRS|ARRAY|HASH])
-
-=over 4
-
-See L<XML::Compile::Cache/"Accessors">
-
-=back
-
-$obj-E<gt>B<useSchema>(SCHEMA, [SCHEMA])
-
-=over 4
+=item $obj-E<gt>B<useSchema>(SCHEMA, [SCHEMA])
 
 See L<XML::Compile::Schema/"Accessors">
 
-=back
-
-$obj-E<gt>B<version>
-
-=over 4
+=item $obj-E<gt>B<version>()
 
 GML version, for instance '3.2.1'.
 
 =back
 
+=head2 Prefix management
+
+See L<documentation in the base class|XML::Compile::Cache/"Prefix management">.
+ 
+=over 4
+
+=item $obj-E<gt>B<addPrefixes>([PAIRS|ARRAY|HASH])
+
+See L<XML::Compile::Cache/"Prefix management">
+
+=item $obj-E<gt>B<learnPrefixes>(NODE)
+
+See L<XML::Compile::Cache/"Prefix management">
+
+=item $obj-E<gt>B<prefix>(PREFIX)
+
+See L<XML::Compile::Cache/"Prefix management">
+
+=item $obj-E<gt>B<prefixFor>(URI)
+
+See L<XML::Compile::Cache/"Prefix management">
+
+=item $obj-E<gt>B<prefixed>(TYPE|(NAMESPACE,LOCAL))
+
+See L<XML::Compile::Cache/"Prefix management">
+
+=item $obj-E<gt>B<prefixes>([PARAMS])
+
+See L<XML::Compile::Cache/"Prefix management">
+
+=back
+
 =head2 Compilers
 
-$obj-E<gt>B<compile>(('READER'|'WRITER'), TYPE, OPTIONS)
-
+See L<documentation in the base class|XML::Compile::Cache/"Compilers">.
+ 
 =over 4
+
+=item $obj-E<gt>B<addCompileOptions>(['READERS'|'WRITERS'|'RW'], OPTIONS)
+
+See L<XML::Compile::Cache/"Compilers">
+
+=item $obj-E<gt>B<compile>(('READER'|'WRITER'), TYPE, OPTIONS)
 
 See L<XML::Compile::Schema/"Compilers">
 
-=back
-
-$obj-E<gt>B<compileAll>(['READER'|'WRITER'|'RW', [NAMESPACE]])
-
-=over 4
+=item $obj-E<gt>B<compileAll>(['READERS'|'WRITERS'|'RW', [NAMESPACE]])
 
 See L<XML::Compile::Cache/"Compilers">
 
-=back
+=item $obj-E<gt>B<dataToXML>(NODE|REF-XML-STRING|XML-STRING|FILENAME|FILEHANDLE|KNOWN)
 
-Geo::GML-E<gt>B<dataToXML>(NODE|REF-XML-STRING|XML-STRING|FILENAME|FILEHANDLE|KNOWN)
-
-=over 4
+=item Geo::GML-E<gt>B<dataToXML>(NODE|REF-XML-STRING|XML-STRING|FILENAME|FILEHANDLE|KNOWN)
 
 See L<XML::Compile/"Compilers">
 
-=back
+=item $obj-E<gt>B<initParser>(OPTIONS)
 
-$obj-E<gt>B<reader>(TYPE|NAME, OPTIONS)
+=item Geo::GML-E<gt>B<initParser>(OPTIONS)
 
-=over 4
+See L<XML::Compile/"Compilers">
+
+=item $obj-E<gt>B<reader>(TYPE|NAME, OPTIONS)
 
 See L<XML::Compile::Cache/"Compilers">
 
-=back
-
-$obj-E<gt>B<template>('PERL'|'XML', TYPE, OPTIONS)
-
-=over 4
+=item $obj-E<gt>B<template>('PERL'|'XML', TYPE, OPTIONS)
 
 See L<XML::Compile::Schema::template()|XML::Compile::Schema/"Compilers">.  This will create an example
 of the data-structure based on GML.  All OPTIONS are passed to the
 template generator, the only reason to have this method, is to avoid
 the need to collect all the GML XML files yourself.
 
- Option              --Defined in     --Default
- abstract_types        XML::Compile::Schema  'IGNORE'
- attributes_qualified  XML::Compile::Schema  <undef>
- elements_qualified    XML::Compile::Schema  <undef>
- include_namespaces    XML::Compile::Schema  <true>
- indent                XML::Compile::Schema  " "
- show_comments         XML::Compile::Schema  ALL
+ -Option              --Defined in          --Default
+  abstract_types        XML::Compile::Schema  'ERROR'
+  attributes_qualified  XML::Compile::Schema  <undef>
+  elements_qualified    XML::Compile::Schema  'TOP'
+  include_namespaces    XML::Compile::Schema  <true>
+  indent                XML::Compile::Schema  " "
+  key_rewrite           XML::Compile::Schema  []
+  show_comments         XML::Compile::Schema  ALL
+  skip_header           XML::Compile::Schema  <false>
 
-. abstract_types => 'ERROR'|'IGNORE'|'ACCEPT'
+=over 2
 
-. attributes_qualified => BOOLEAN
+=item abstract_types => 'ERROR'|'ACCEPT'
 
-. elements_qualified => 'ALL'|'TOP'|'NONE'|BOOLEAN
+=item attributes_qualified => BOOLEAN
 
-. include_namespaces => BOOLEAN
+=item elements_qualified => 'ALL'|'TOP'|'NONE'|BOOLEAN
 
-. indent => STRING
+=item include_namespaces => BOOLEAN|CODE
 
-. show_comments => STRING|'ALL'|'NONE'
+=item indent => STRING
+
+=item key_rewrite => HASH|CODE|ARRAY-of-HASH-and-CODE
+
+=item show_comments => STRING|'ALL'|'NONE'
+
+=item skip_header => BOOLEAN
+
+=back
 
 example: 
 
@@ -360,11 +355,7 @@ example:
   my $type  = 'gml:RectifiedGridCoverage';  # any element name
   print $gml->template(PERL => $type, hook => \%hook);
 
-=back
-
-$obj-E<gt>B<writer>(TYPE|NAME)
-
-=over 4
+=item $obj-E<gt>B<writer>(TYPE|NAME)
 
 See L<XML::Compile::Cache/"Compilers">
 
@@ -372,9 +363,9 @@ See L<XML::Compile::Cache/"Compilers">
 
 =head2 Helpers
 
-$obj-E<gt>B<GPtoGML>(OBJECT, OPTIONS)
-
 =over 4
+
+=item $obj-E<gt>B<GPtoGML>(OBJECT, OPTIONS)
 
 See L<Geo::GML::GeoPoint/"Helpers">
 
@@ -382,92 +373,66 @@ See L<Geo::GML::GeoPoint/"Helpers">
 
 =head2 Administration
 
-$obj-E<gt>B<declare>('READER'|'WRITER'|'RW', TYPE|ARRAY-of-TYPES, OPTIONS)
-
+See L<documentation in the base class|XML::Compile::Cache/"Administration">.
+ 
 =over 4
+
+=item $obj-E<gt>B<declare>('READER'|'WRITER'|'RW', TYPE|ARRAY-of-TYPES, OPTIONS)
 
 See L<XML::Compile::Cache/"Administration">
 
-=back
-
-$obj-E<gt>B<elements>
-
-=over 4
+=item $obj-E<gt>B<doesExtend>(EXTTYPE, BASETYPE)
 
 See L<XML::Compile::Schema/"Administration">
 
-=back
+=item $obj-E<gt>B<elements>()
 
-$obj-E<gt>B<findName>(NAME)
+See L<XML::Compile::Schema/"Administration">
 
-=over 4
+=item $obj-E<gt>B<findName>(NAME)
 
 See L<XML::Compile::Cache/"Administration">
 
-=back
+=item $obj-E<gt>B<findSchemaFile>(FILENAME)
 
-$obj-E<gt>B<findSchemaFile>(FILENAME)
-
-Geo::GML-E<gt>B<findSchemaFile>(FILENAME)
-
-=over 4
+=item Geo::GML-E<gt>B<findSchemaFile>(FILENAME)
 
 See L<XML::Compile/"Administration">
 
-=back
-
-$obj-E<gt>B<importDefinitions>(XMLDATA, OPTIONS)
-
-=over 4
+=item $obj-E<gt>B<importDefinitions>(XMLDATA, OPTIONS)
 
 See L<XML::Compile::Schema/"Administration">
 
-=back
+=item $obj-E<gt>B<knownNamespace>(NAMESPACE|PAIRS)
 
-$obj-E<gt>B<knownNamespace>(NAMESPACE|PAIRS)
-
-Geo::GML-E<gt>B<knownNamespace>(NAMESPACE|PAIRS)
-
-=over 4
+=item Geo::GML-E<gt>B<knownNamespace>(NAMESPACE|PAIRS)
 
 See L<XML::Compile/"Administration">
 
-=back
-
-$obj-E<gt>B<namespaces>
-
-=over 4
+=item $obj-E<gt>B<namespaces>()
 
 See L<XML::Compile::Schema/"Administration">
 
-=back
-
-$obj-E<gt>B<printIndex>([FILEHANDLE], OPTIONS)
-
-=over 4
+=item $obj-E<gt>B<printIndex>([FILEHANDLE], OPTIONS)
 
 List all the elements which can be produced with the schema.  By default,
 this only shows the elements and excludes the abstract elements from
 the list.  The selected FILEHANDLE is the default to print to.
 
- Option       --Defined in         --Default
- show_declared  XML::Compile::Cache  <true>
+ -Option       --Defined in         --Default
+  show_declared  XML::Compile::Cache  <true>
 
-. show_declared => BOOLEAN
+=over 2
+
+=item show_declared => BOOLEAN
 
 =back
 
-$obj-E<gt>B<types>
-
-=over 4
+=item $obj-E<gt>B<types>()
 
 See L<XML::Compile::Schema/"Administration">
 
-=back
-
-$obj-E<gt>B<walkTree>(NODE, CODE)
-
-=over 4
+=item $obj-E<gt>B<walkTree>(NODE, CODE)
 
 See L<XML::Compile/"Administration">
 
@@ -475,28 +440,16 @@ See L<XML::Compile/"Administration">
 
 =head1 DETAILS
 
-=head1 DIAGNOSTICS
+See L<documentation in the base class|XML::Compile::Cache/"DETAILS">.
+ 
+=head1 DESCRIPTIONS
 
-Error: cannot find pre-installed name-space files
-
-=over 4
-
-Use C<$ENV{SCHEMA_LOCATION}> or L<new(schema_dirs)|XML::Compile/"Constructors"> to express location
-of installed name-space files, which came with the L<XML::Compile|XML::Compile>
-distribution package.
-
-=back
-
-Error: don't known how to interpret XML data
-
-=over 4
-
-=back
-
+See L<documentation in the base class|XML::Compile::Cache/"DESCRIPTIONS">.
+ 
 =head1 SEE ALSO
 
-This module is part of Geo-GML distribution version 0.15,
-built on March 19, 2009. Website: F<http://perl.overmeer.net/geo/>
+This module is part of Geo-GML distribution version 0.16,
+built on January 05, 2014. Website: F<http://perl.overmeer.net/geo/>
 All modules in this suite:
 L</Geo::GML>,
 L</Geo::ISO19139>,
@@ -507,14 +460,14 @@ L</Geo::WKT>, and
 L</Math::Polygon>.
 
 Please post questions or ideas to
-F<http://geo-perl@list.hut.fi|the Geo-Perl mailinglist>
+F<https://list.hut.fi/mailman/listinfo/geo-perl|the Geo-Perl mailinglist>
 
 =head1 COPYRIGHTS
 
 =head2 License of the CODE
 
 Copyrights of the perl code and the related documentation by
-2008-2009 by Mark Overmeer. For other contributors see ChangeLog.
+2008-2014 by [Mark Overmeer]. For other contributors see ChangeLog.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

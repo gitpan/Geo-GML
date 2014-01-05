@@ -306,4 +306,5 @@ t/29gml321.t
 t/40gpgml3.t
 t/41gpgml2.t
 t/99pod.t
-META.yml                                 Module meta-data (added by MakeMaker)
+META.yml                                 Module YAML meta-data (added by MakeMaker)
+META.json                                Module JSON meta-data (added by MakeMaker)
